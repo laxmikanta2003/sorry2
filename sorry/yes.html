@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumi Forgave You!</title>
+
+<style>
+    body{
+        margin:0;
+        height:100vh;
+        background:linear-gradient(135deg,#c3ffe1,#b5f7ce);
+        display:flex; justify-content:center; align-items:center;
+        font-family:"Poppins", sans-serif;
+        overflow:hidden;
+    }
+
+    .box{
+        background:white;
+        padding:50px;
+        border-radius:20px;
+        text-align:center;
+        box-shadow:0 8px 20px rgba(0,0,0,0.2);
+    }
+    /* Responsive: mobile adjustments */
+    @media (max-width:600px){
+        body{padding:20px; height:auto; min-height:100vh}
+        .box{
+            width:100%;
+            max-width:520px;
+            padding:22px;
+            border-radius:14px;
+            box-shadow:0 8px 18px rgba(0,0,0,0.12);
+        }
+        h1{font-size:1.6rem}
+        p{font-size:1rem}
+        .btn{padding:10px 18px;font-size:1rem;border-radius:22px}
+        .btn + .btn{margin-left:8px}
+        .butterfly{font-size:30px}
+        /* reduce visual noise on mobile */
+        @media (max-width:420px){
+            .butterfly{display:none}
+            .btn{display:block;width:100%;margin:10px 0}
+        }
+        .pet{width:48px}
+    }
+
+    @media (max-width:380px){
+        .box{padding:16px}
+        h1{font-size:1.3rem}
+        .pet{width:40px}
+    }
+
+    .butterfly{
+        position:absolute;
+        font-size:40px;
+        animation:fly 6s linear infinite;
+    }
+
+    @keyframes fly{
+        0%{transform:translateY(100vh) rotate(0deg);}
+        100%{transform:translateY(-100vh) rotate(360deg);}
+    }
+
+    .btn{
+        padding:12px 25px;
+        background:#28a772; color:white;
+        border:none; border-radius:30px;
+        margin-top:20px;
+        font-size:1.2rem; cursor:pointer;
+    }
+    /* pet image that follows cursor on hover */
+    .pet{
+        position: absolute;
+        width: 80px;
+        height: auto;
+        left: 20px;
+        top: 20px;
+        transition: transform 0.12s ease;
+        pointer-events: none; /* let mouse events pass through */
+        z-index: 30;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        transform: translate3d(0,0,0);
+    }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <div style="font-size:45px;">🦋💖</div>
+    <h1>Lumi forgave you! 🎉💗</h1>
+    <p>I am the luckiest person today,Abhi se mei acha baacha hu. 😄</p>
+
+    <button class="btn" onclick="window.location.href='game.html'">
+        i made my first game for you 🙈
+    </button>
+
+    <button class="btn" onclick="window.location.href='secret.html'">
+        Secret Message only for cute Talli Mornii🥰🥰
+    </button>
+</div>
+
+<!-- floating pet image (follows cursor while hovered) -->
+<img src="sorry.png" id="pet" class="pet" alt="sorry" />
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1"></script>
+<script>
+confetti({particleCount:300, spread:70});
+
+function butterflies(){
+    const b = document.createElement("div");
+    b.className="butterfly";
+    b.innerHTML="🦋";
+    b.style.left=Math.random()*100+"vw";
+    b.style.animationDuration=(3 + Math.random()*3)+"s";
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),6000);
+}
+setInterval(butterflies,300);
+</script>
+
+<script>
+// Make the pet image follow the cursor continuously (smoothly)
+const pet = document.getElementById('pet');
+let targetX = 20, targetY = 20;
+let currentX = 20, currentY = 20;
+
+function onMouseMove(e){
+    const w = pet.offsetWidth || 80;
+    const h = pet.offsetHeight || 80;
+    targetX = e.clientX - w/2;
+    targetY = e.clientY - h/2;
+}
+
+document.addEventListener('mousemove', onMouseMove);
+// touch support: update target on touchmove so pet follows finger on mobile
+document.addEventListener('touchmove', function(e){
+    if(!e.touches || e.touches.length === 0) return;
+    const t = e.touches[0];
+    onMouseMove(t);
+}, {passive:true});
+
+function animate(){
+    // simple easing
+    currentX += (targetX - currentX) * 0.18;
+    currentY += (targetY - currentY) * 0.18;
+    pet.style.left = currentX + 'px';
+    pet.style.top = currentY + 'px';
+    requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+</script>
+
+</body>
+</html>
+
+

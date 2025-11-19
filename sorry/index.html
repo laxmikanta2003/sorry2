@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorry Lumi</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: radial-gradient(circle, #ffe7f1, #ffc8d8);
+        font-family: "Poppins", sans-serif;
+        overflow: hidden;
+    }
+
+    .card {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 40px 60px;
+        border-radius: 25px;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        z-index: 10;
+    }
+
+    .typing {
+        font-size: 1.2rem;
+        margin-top: 15px;
+        height: 40px;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 3px solid #ff4f78;
+        width: 0;
+        animation: typing 4s steps(40) forwards, blink .7s infinite;
+    }
+
+    @keyframes typing {
+        to { width: 100%; }
+    }
+
+    @keyframes blink {
+        50% { border-color: transparent; }
+    }
+
+    .btn {
+        padding: 14px 30px;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 5px;
+        transition: 0.3s;
+    }
+
+    #yesBtn {
+        background: #ff4f78;
+        color: #fff;
+    }
+
+    #noBtn {
+        background: #333;
+        color: white;
+        position: relative;
+    }
+
+    /* Floating stars */
+    .star {
+        position: absolute;
+        color: white;
+        font-size: 18px;
+        animation: floatStar 5s linear infinite;
+        opacity: 0.8;
+    }
+
+    @keyframes floatStar {
+        0% { transform: translateY(100vh); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    /* Beating heart */
+    .heart-hover {
+        font-size: 40px;
+        display: inline-block;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+    .heart-hover:hover {
+        transform: scale(1.3);
+        animation: beat .4s infinite alternate;
+    }
+
+    @keyframes beat {
+        from { transform: scale(1.2); }
+        to { transform: scale(1.4); }
+    }
+
+    /* Pet following mouse (smooth) */
+    .pet {
+        position: absolute;
+        width: 60px;
+        height: auto;
+        left: 20px;
+        top: 20px;
+        pointer-events: none; /* don't block interactions */
+        z-index: 25;
+        transform: translate3d(0,0,0);
+    }
+    /* Mobile adjustments */
+    @media (max-width: 600px){
+        body{height:auto; min-height:100vh;}
+        .card{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            width: calc(100% - 32px);
+            max-width: 440px;
+            padding: 20px 22px;
+            border-radius: 16px;
+        }
+        .typing{
+            font-size: 1rem;
+            margin-top: 12px;
+            height: auto;
+            white-space: normal;
+            overflow: visible;
+            border-right: none;
+            width: auto;
+            animation: none;
+        }
+        .btn{padding:10px 12px;font-size:1rem;border-radius:22px}
+        .btn + .btn{margin-left:6px}
+        h1{font-size:1.4rem}
+        .star{font-size:14px}
+        .pet{width:40px}
+        /* make no-button movement smaller on mobile */
+        #noBtn{position:relative}
+    }
+
+    @media (max-width: 380px){
+        .card{padding:16px 14px}
+        .btn{display:block;width:100%;margin:8px 0}
+        .row{flex-direction:column}
+        .pet{width:36px}
+        h1{font-size:1.2rem}
+    }
+</style>
+</head>
+
+<body>
+
+<!-- PETS -->
+<img src="sorry.png" class="pet" id="pet1">
+
+<!-- FLOATING STARS -->
+<script>
+function createStar() {
+    const star = document.createElement("div");
+    star.className = "star";
+    star.innerHTML = "✨";
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(star);
+    setTimeout(() => star.remove(), 5000);
+}
+setInterval(createStar, 300);
+</script>
+
+<div class="card">
+    <div class="heart-hover">😭</div>
+    <h1>Sorry Lumiii.. 💗</h1>
+
+    <div class="typing" id="typingText">
+        It’s me, Laxmikanta… and I’m really, really sorry for hurting you.
+        Please forgive me. I promise to be better and make you happiest girl.
+    </div>
+
+    <button class="btn" id="yesBtn" onclick="window.location.href='yes.html'">Yes 💖</button>
+    <button class="btn" id="noBtn">No 😠</button>
+</div>
+
+<script>
+    // No button runaway (desktop + mobile)
+    const nb = document.getElementById("noBtn");
+
+    function moveNoButtonRandom(){
+        const btn = nb;
+        const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        const bw = btn.offsetWidth || 80;
+        const bh = btn.offsetHeight || 40;
+        const pad = 12;
+        const maxLeft = Math.max(pad, vw - bw - pad);
+        const maxTop = Math.max(pad, vh - bh - pad);
+        const left = Math.floor(Math.random() * maxLeft);
+        const top = Math.floor(Math.random() * maxTop);
+        // position absolute so left/top take effect
+        btn.style.position = 'absolute';
+        btn.style.left = left + 'px';
+        btn.style.top = top + 'px';
+    }
+
+    function dodgeFromPoint(pt){
+        const btn = nb;
+        const rect = btn.getBoundingClientRect();
+        const centerX = rect.left + rect.width/2;
+        const centerY = rect.top + rect.height/2;
+        let dx = centerX - pt.clientX;
+        let dy = centerY - pt.clientY;
+        let dist = Math.hypot(dx, dy) || 1;
+        // push distance (how far to dodge)
+        const push = Math.max(120, Math.min(220, 200 - dist));
+        // normalize and compute new center
+        const nx = centerX + (dx/dist) * push;
+        const ny = centerY + (dy/dist) * push;
+        // clamp within viewport
+        const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        const bw = rect.width || 80;
+        const bh = rect.height || 40;
+        const left = Math.max(8, Math.min(vw - bw - 8, nx - bw/2));
+        const top = Math.max(8, Math.min(vh - bh - 8, ny - bh/2));
+        btn.style.position = 'absolute';
+        btn.style.left = left + 'px';
+        btn.style.top = top + 'px';
+    }
+
+    // desktop: keep existing mouseover behavior
+    nb.addEventListener('mouseover', moveNoButtonRandom);
+
+    // pointer enter (stylus/touch-pointer) also triggers move
+    if(window.PointerEvent){
+        nb.addEventListener('pointerenter', moveNoButtonRandom);
+    }
+
+    // touch: move away on touchstart and dodge while finger moves
+    nb.addEventListener('touchstart', function(e){
+        if(e.touches && e.touches[0]){
+            e.preventDefault();
+            dodgeFromPoint(e.touches[0]);
+        } else {
+            moveNoButtonRandom();
+        }
+    }, {passive:false});
+
+    nb.addEventListener('touchmove', function(e){
+        if(e.touches && e.touches[0]){
+            e.preventDefault();
+            dodgeFromPoint(e.touches[0]);
+        }
+    }, {passive:false});
+
+    // PETS FOLLOW MOUSE (smooth easing like yes.html)
+    const pet1 = document.getElementById("pet1");
+    let targetX = 20, targetY = 20;
+    let currentX = 20, currentY = 20;
+
+    function onMouseMove(e){
+        const w = pet1.offsetWidth || 60;
+        const h = pet1.offsetHeight || 60;
+        // Keep the image slightly above the cursor so it 'hovers'
+        targetX = e.clientX - w/2;
+        targetY = e.clientY - h - 12; // 12px above the cursor
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    // pointer events (covers pen/mouse)
+    if(window.PointerEvent){
+        document.addEventListener('pointermove', onMouseMove);
+    }
+
+    // Touch support: enable reliable touchmove by disabling default touch-action while touching
+    function onTouchStart(e){
+        if(!e.touches || !e.touches[0]) return;
+        // temporarily disable scrolling so we get continuous touchmove events
+        document.body.style.touchAction = 'none';
+        onMouseMove(e.touches[0]);
+    }
+    function onTouchMove(e){
+        if(!e.touches || !e.touches[0]) return;
+        onMouseMove(e.touches[0]);
+    }
+    function onTouchEnd(){
+        // restore scrolling
+        document.body.style.touchAction = '';
+    }
+    document.addEventListener('touchstart', onTouchStart, {passive:false});
+    document.addEventListener('touchmove', onTouchMove, {passive:false});
+    document.addEventListener('touchend', onTouchEnd, {passive:true});
+
+    function animatePet(){
+        // easing
+        currentX += (targetX - currentX) * 0.18;
+        currentY += (targetY - currentY) * 0.18;
+        pet1.style.left = currentX + 'px';
+        pet1.style.top = currentY + 'px';
+        // subtle scale based on movement speed for a lively hover effect
+        const dx = targetX - currentX;
+        const dy = targetY - currentY;
+        const speed = Math.min(1, Math.hypot(dx, dy) / 150);
+        const scale = 1 + speed * 0.12; // up to ~1.12
+        pet1.style.transform = `scale(${scale})`;
+        requestAnimationFrame(animatePet);
+    }
+    requestAnimationFrame(animatePet);
+</script>
+
+</body>
+</html>
+
+
